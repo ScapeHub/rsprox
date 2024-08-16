@@ -59,7 +59,7 @@ public class SessionPanel(
     init {
         layout = BorderLayout()
 
-        tableModel.setColumnIdentifiers(listOf("Protocol", "Content"))
+        tableModel.setColumnIdentifiers(listOf("Console"))
         tableModel.setRoot(root)
 
         treeTable.treeTableModel = tableModel
@@ -72,14 +72,7 @@ public class SessionPanel(
         treeTable.searchable = TableSearchable(treeTable)
         treeTable.autoResizeMode = JXTreeTable.AUTO_RESIZE_LAST_COLUMN
 
-        treeTable.tableHeader.resizingColumn = treeTable.columnModel.getColumn(1)
-
-        treeTable.columnModel.getColumn(0).apply {
-            minWidth = 150
-            maxWidth = 250
-            preferredWidth = 200
-            width = preferredWidth
-        }
+        treeTable.tableHeader.resizingColumn = treeTable.columnModel.getColumn(0)
 
         val highlighter = ColorHighlighter(HighlightPredicate.ODD, getOddRowColor(), null)
         treeTable.addHighlighter(highlighter)
@@ -385,15 +378,11 @@ public class SessionPanel(
             override fun getValueAt(column: Int) =
                 when (column) {
                     0 -> "Stream"
-                    1 ->
-                        "${header.worldId} (${header.worldActivity}) at ${
-                            SimpleDateFormat.getTimeInstance().format(header.timestamp)
-                        }"
 
                     else -> error("Invalid column index: $column")
                 }
 
-            override fun getColumnCount() = 2
+            override fun getColumnCount() = 1
         }
 
         private class TickTreeTableNode(
@@ -402,11 +391,10 @@ public class SessionPanel(
             override fun getValueAt(column: Int) =
                 when (column) {
                     0 -> "Tick $tickNumber"
-                    1 -> null
                     else -> error("Invalid column index: $column")
                 }
 
-            override fun getColumnCount() = 2
+            override fun getColumnCount() = 1
         }
 
         private class MessageTreeTableNode(
@@ -415,12 +403,11 @@ public class SessionPanel(
         ) : SessionBaseTreeTableNode() {
             override fun getValueAt(column: Int) =
                 when (column) {
-                    0 -> prot?.toString()?.lowercase()
-                    1 -> message
+                    0-> message
                     else -> error("Invalid column index: $column")
                 }
 
-            override fun getColumnCount() = 2
+            override fun getColumnCount() = 1
         }
 
         private abstract class SessionBaseTreeTableNode : AbstractMutableTreeTableNode(null, true)
