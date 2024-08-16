@@ -10,6 +10,9 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+}
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
@@ -52,3 +55,5 @@ fun searchSubproject(
     val subprojectName = relativePath.toString().replace(File.separator, ":")
     include("$projectName:$subprojectName")
 }
+include("gui:scaperune-proxy-tool")
+findProject(":gui:scaperune-proxy-tool")?.name = "scaperune-proxy-tool"
