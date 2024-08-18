@@ -181,6 +181,7 @@ public class SessionPanel(
                                 SessionType.Native -> {
                                     App.service.launchNativeClient(UiSessionMonitor())
                                 }
+
                                 SessionType.RuneLite -> {
                                     App.service.launchRuneLiteClient(UiSessionMonitor())
                                 }
@@ -375,42 +376,25 @@ public class SessionPanel(
         private class StreamTreeTableNode(
             private val header: BinaryHeader,
         ) : SessionBaseTreeTableNode() {
-            override fun getValueAt(column: Int) =
-                when (column) {
-                    0 -> "Stream"
-
-                    else -> error("Invalid column index: $column")
-                }
-
-            override fun getColumnCount() = 1
+            override fun getValueAt(column: Int) = "Stream"
         }
 
         private class TickTreeTableNode(
             private val tickNumber: Int,
         ) : SessionBaseTreeTableNode() {
-            override fun getValueAt(column: Int) =
-                when (column) {
-                    0 -> "Tick $tickNumber"
-                    else -> error("Invalid column index: $column")
-                }
-
-            override fun getColumnCount() = 1
+            override fun getValueAt(column: Int) = "Tick $tickNumber"
         }
 
         private class MessageTreeTableNode(
             private val message: String,
             private val prot: Any?,
         ) : SessionBaseTreeTableNode() {
-            override fun getValueAt(column: Int) =
-                when (column) {
-                    0-> message
-                    else -> error("Invalid column index: $column")
-                }
-
-            override fun getColumnCount() = 1
+            override fun getValueAt(column: Int) = message
         }
 
-        private abstract class SessionBaseTreeTableNode : AbstractMutableTreeTableNode(null, true)
+        private abstract class SessionBaseTreeTableNode : AbstractMutableTreeTableNode(null, true) {
+            override fun getColumnCount() = 1
+        }
 
         private val logger = InlineLogger()
     }
